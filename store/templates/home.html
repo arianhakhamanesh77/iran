@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block main %}
+    {% if ads %}
+        <section class="slider">
+        <div class="slides">
+            {% for ad in ads %}
+                 {% if forloop.counter == 1 %}
+            <div class="item active" id="s{{ forloop.counter }}">
+                <img src="{{ ad.avatar.url }}">
+                <span>{{ ad.text }}</span>
+            </div>
+                {% elif  forloop.counter != 1 %}
+            <div class="item" id="s{{ forloop.counter }}">
+                <img src="{{ ad.avatar.url }}" alt="">
+                <span>{{ ad.text }}</span>
+            </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="buttons">
+        {% for a in ads %}
+                <i onclick="setSlide('s{{ forloop.counter }}', {{ forloop.counter }})" class="fas fa-circle-notch"></i>
+        {% endfor %}
+        </div>
+        </section>
+    {% endif %}
+</header>
+<main>
+    {% if bests %}
+    <section class="product-sec-new">
+        <div class="row">
+        {% for best in bests %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 ">
+
+                <div class="shoping-card">
+                    <div class="img-sec">
+                        <img src="{{ best.product.avatar.url }}" alt="" />
+                        {% if best.product.best_offer %}
+                        <span class="hot-offer">پیشنهاد ویژه</span>
+                        {% endif %}
+
+{#                        <div class="stars">#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                        </div>#}
+                    </div>
+                    <div class="title">
+                        {{ best.product.name }}
+                    </div>
+                    <div class="buttons">
+                        <div class="right">
+                            <span class="price">{{ best.product.price|intcomma:False }} هزار تومان</span>
+                        </div>
+                        <div class="left">
+                            <div class="extend-btn">
+                                <a class="b-text" href="">علاقه</a>
+                                <a class="b-icon" href=""><i class="fas fa-heart"></i></a>
+                            </div>
+                            <div class="extend-btn">
+                                <a class="b-text" href="">خرید</a>
+                                <a class="b-icon" href=""><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    {% if hot and x > 0 %}
+        {% for h in hot %}
+            <section class="supper-offer-section">
+        <input type="hidden" value="{{ x }}" id="timeeee">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="supper-offer-box">
+              <span class="supper-offer-box-title">
+                پیشنهاد شگفت انگیز
+              </span>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="image-container">
+                                    <img src="{{ h.product.avatar.url }}" alt="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="spesification">
+                                    <div class="price-row">
+                                        <div class="price">{{ h.new_price|intcomma:False }}</div>
+                                        <div class="off">{{ h.discount }} % تخفیف</div>
+                                    </div>
+                                    <div class="title">{{ h.product.name }}</div>
+                                    <div class="counter-down">
+                                        <span id="seconds"></span> :
+                                        <span id="minutes"></span> :
+                                        <span id="hours"></span>
+                                    </div>
+                                    <div class="remaining-time">
+                                        زمان باقی مانده تا پایان سفارش
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="banner">
+                    <img src="{{ h.banner.url }}" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+        {% endfor %}
+    {% endif %}
+    {% for category in categorys %}
+        <section class="dragble-list">
+        <div class="title">
+            <span>{{ category.name }}</span>
+        </div>
+        <div class="owl-carousel owl-theme owl-product">
+            {% for pro in category.productSet.all %}
+            <div class="item">
+                <div class="shoping-card">
+                    <div class="img-sec">
+                        <img src="{{ pro.avatar.url }}" alt="" />
+                        {% if pro.best_offer %}
+                        <span class="hot-offer">پیشنهاد ویژه</span>
+                        {% endif %}
+{#                        <div class="stars">#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                            <i class="fas fa-star"></i>#}
+{#                        </div>#}
+                    </div>
+                    <div class="title">
+                        {{ pro.name }}
+                    </div>
+                    <div class="buttons">
+                        <div class="right">
+                            <span class="price">{{ pro.price }} هزار تومان</span>
+                        </div>
+                        <div class="left">
+                            <div class="extend-btn">
+                                <a class="b-text" href="">علاقه</a>
+                                <a class="b-icon" href=""><i class="fas fa-heart"></i></a>
+                            </div>
+                            <div class="extend-btn">
+                                <a class="b-text" href="">خرید</a>
+                                <a class="b-icon" href=""
+                                ><i class="fas fa-shopping-cart"></i
+                                ></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</main>
+{% endblock %}
